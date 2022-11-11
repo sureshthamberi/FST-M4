@@ -1,0 +1,25 @@
+hive> create database office;
+hive> use office;
+
+hive> CREATE TABLE employee
+    > (id INT, name STRING, dept STRING, yoj INT, salary INT)
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+    > TBLPROPERTIES ("skip.header.line.count"="1");
+
+hive> LOAD DATA LOCAL INPATH
+    > '/root/suresh/EmpData.csv'
+    > INTO TABLE employee;
+
+hive> SELECT * FROM employee;
+hive> SELECT COUNT(*) FROM employee;
+
+
+#Exports to HDFS directory
+hive> INSERT OVERWRITE DIRECTORY '/user/suresh/output/export'
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+    > SELECT * FROM emp.employee;
+
+#Exports to LOCAL directory
+hive> INSERT OVERWRITE LOCAL DIRECTORY '/root/suresh/export' 
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+    > SELECT * FROM emp.employee;
