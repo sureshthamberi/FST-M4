@@ -1,0 +1,19 @@
+hive> CREATE DATABASE movie;
+hive> USE movie;
+hive> CREATE TABLE characters
+    > (character STRING, dialogue STRING)
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+hive> LOAD DATA INPATH
+    > '/user/suresh/inputs/'
+    > INTO TABLE characters;
+hive> CREATE TABLE totals AS
+    > SELECT character,COUNT(dialogue) AS dialogue_count FROM characters
+    > GROUP BY character
+    > ORDER BY dialogue_count DESC;
+hive> SELECT * FROM totals;
+hive> INSERT OVERWRITE DIRECTORY '/user/suresh/output/hiveReport'
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+    > SELECT * FROM movie.totals;
+hive> INSERT OVERWRITE LOCAL DIRECTORY '/root/suresh/output/hiveReport_local'
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+    > SELECT * FROM movie.totals;

@@ -1,0 +1,15 @@
+hive> CREATE DATABASE movie;
+hive> use movie;
+hive> CREATE TABLE Luke
+    > (character STRING, dialogue STRING)
+    > ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+hive> LOAD DATA INPATH '/user/suresh/inputs/episodeIV_dialouges.txt'
+    > INTO TABLE Luke;
+hive> CREATE TABLE totalcount AS
+    > SELECT COUNT(dialogue) FROM Luke
+    > WHERE dialogue LIKE '%Luke%';
+hive> SELECT * FROM totalcount;
+hive> INSERT OVERWRITE DIRECTORY '/user/suresh/output/LukeCount'
+    > SELECT * FROM movie.totalcount;
+hive> INSERT OVERWRITE LOCAL DIRECTORY '/root/suresh/output/LukeCount_local'
+    > SELECT * FROM movie.totalcount;
